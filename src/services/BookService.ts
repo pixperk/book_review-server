@@ -2,7 +2,7 @@ import { Book } from "../models/BookModel";
 
 export const getAllBooks = async (page: number = 1, limit: number = 10) => {
     const skip = (page - 1) * limit;
-    const books = await Book.find().skip(skip).limit(limit).populate({
+    const books = await Book.find().sort({ createdAt: -1 }).skip(skip).limit(limit).populate({
       path: "user",
       select: "name"
     });

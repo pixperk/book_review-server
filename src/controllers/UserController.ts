@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getProfile, signIn, signUp, toggleRole, updateProfile } from "../services/UserService";
+import { getAllUsers, getProfile, signIn, signUp, toggleRole, updateProfile } from "../services/UserService";
 import { ZodError } from "zod";
 import { AuthRequest } from "../middlewares/authMiddleware";
 
@@ -46,6 +46,15 @@ export const updateProfileController = async (req: AuthRequest, res: Response) =
     const { name, email } = req.body;
     const user = await updateProfile(userId, name, email);
     res.status(200).json({user});
+  } catch (error) {
+    res.status(404).json({ message: error instanceof Error ? error.message : "User not found" });
+  }
+}
+
+export const getAllUsersController = async (_req: AuthRequest, res: Response) => {
+  try {
+   const users = await getAllUsers()
+   res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error instanceof Error ? error.message : "User not found" });
   }

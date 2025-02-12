@@ -27,6 +27,11 @@ export const signIn = async (email: string, password: string) => {
   return { user, token };
 };
 
+export const getAllUsers = async()=>{
+  const users = await User.find();
+  return users;
+}
+
 export const getProfile = async (userId: string) => {
   const user = await User.findById(userId);
   if (!user) throw new Error("User does not exist");
